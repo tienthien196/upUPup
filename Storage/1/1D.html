@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Từ Vựng Động Từ Theo Chủ Đề - Futuristic</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0f0f1a;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(131, 96, 195, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 200, 255, 0.1) 0%, transparent 20%);
+            min-height: 100vh;
+            color: #e0e0ff;
+            overflow-x: hidden;
+        }
+
+        .futuristic-header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.3);
+            border-radius: 20px;
+        }
+
+        .category-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 200, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(100, 200, 255, 0.05));
+            pointer-events: none;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .category-card:hover::before {
+            opacity: 1;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 20px 50px rgba(0, 150, 255, 0.25);
+        }
+
+        .category-header {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            padding: 1rem 1.5rem;
+            border-radius: 16px 16px 0 0;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .verb-row {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .verb-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.01);
+            box-shadow: 0 0 15px rgba(100, 200, 255, 0.2);
+        }
+
+        .icon-container {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .icon-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .verb-row:hover .icon-container img {
+            transform: scale(1.1);
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+            color: white;
+            font-weight: 600;
+        }
+
+        .speak-btn, .favorite-btn {
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .verb-row:hover .speak-btn, .verb-row:hover .favorite-btn {
+            opacity: 1;
+        }
+
+        .favorite-btn.active {
+            color: #fbbf24;
+            animation: heartBeat 0.5s ease;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .neon-text {
+            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff;
+            color: #0ff;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .glow-button {
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            transition: box-shadow 0.3s;
+        }
+
+        .glow-button:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+
+        .loading-dots::after {
+            content: '...';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <div class="container mx-auto px-6 py-10">
+
+        <!-- Header Futuristic -->
+        <div class="text-center mb-16">
+            <h1 class="text-6xl font-bold mb-4 neon-text">📚 TỪ VỰNG ĐỘNG TỪ</h1>
+            <p class="text-xl opacity-80 mb-8">Học từ vựng theo chủ đề - Phong cách tương lai</p>
+
+            <!-- Search & Filter -->
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-center mb-10">
+                <div class="relative w-full md:w-96">
+                    <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm từ vựng..." 
+                           class="px-6 py-4 rounded-full search-input w-full text-white placeholder-white/70 glow-button">
+                    <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-white/70"></i>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-center">
+                    <button onclick="filterCategory('all')" class="filter-btn active glow-button">Tất cả</button>
+                    <button onclick="filterCategory('1d1')" class="filter-btn glow-button">Nghệ Thuật</button>
+                    <button onclick="filterCategory('1d2')" class="filter-btn glow-button">Xã Hội</button>
+                    <button onclick="filterCategory('1d3')" class="filter-btn glow-button">Thể Thao</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danh sách từ vựng -->
+        <div id="vocabularyContainer" class="space-y-12">
+
+            <!-- Nghệ Thuật & Giải Trí -->
+            <div class="category-card" data-category="1d1">
+                <div class="category-header">
+                    <span class="text-3xl">🎭</span>
+                    <h2 class="text-2xl">1D-1: NGHỆ THUẬT & GIẢI TRÍ</h2>
+                </div>
+                <div class="overflow-x-auto p-6">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-blue-400/30">
+                                <th class="text-left py-4 px-4 font-bold text-cyan-300">Động từ</th>
+                                <th class="text-left py-4 px-4 font-bold text-cyan-300">Nghĩa</th>
+                                <th class="text-center py-4 px-4 font-bold text-cyan-300">Hình ảnh</th>
+                                <th class="text-left py-4 px-4 font-bold text-cyan-300">Ví dụ</th>
+                                <th class="text-center py-4 px-4 font-bold text-cyan-300">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="category-1d1">
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">dance</span> <span class="text-sm opacity-70">/dæns/</span></td>
+                                <td class="py-4 px-4">nhảy múa</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=💃" alt="dance"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Dance beautifully</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('dance')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">sing</span> <span class="text-sm opacity-70">/sɪŋ/</span></td>
+                                <td class="py-4 px-4">hát</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎤" alt="sing"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Sing a song</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('sing')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">play</span> <span class="text-sm opacity-70">/pleɪ/</span></td>
+                                <td class="py-4 px-4">chơi</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎮" alt="play"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Play guitar</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('play')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">perform</span> <span class="text-sm opacity-70">/pərˈfɔːrm/</span></td>
+                                <td class="py-4 px-4">biểu diễn</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎭" alt="perform"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Perform on stage</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('perform')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">act</span> <span class="text-sm opacity-70">/ækt/</span></td>
+                                <td class="py-4 px-4">diễn xuất</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎭" alt="act"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Act in movie</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('act')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">rehearse</span> <span class="text-sm opacity-70">/rɪˈhɜːrs/</span></td>
+                                <td class="py-4 px-4">tập dượt</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎭" alt="rehearse"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Rehearse lines</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('rehearse')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">practice</span> <span class="text-sm opacity-70">/ˈpræktɪs/</span></td>
+                                <td class="py-4 px-4">luyện tập</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎵" alt="practice"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Practice piano</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('practice')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">entertain</span> <span class="text-sm opacity-70">/ˌentərˈteɪn/</span></td>
+                                <td class="py-4 px-4">giải trí</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎭" alt="entertain"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Entertain guests</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('entertain')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">amuse</span> <span class="text-sm opacity-70">/əˈmjuːz/</span></td>
+                                <td class="py-4 px-4">làm vui</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=😂" alt="amuse"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Amuse children</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('amuse')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">delight</span> <span class="text-sm opacity-70">/dɪˈlaɪt/</span></td>
+                                <td class="py-4 px-4">làm vui</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=😊" alt="delight"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Delight customers</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('delight')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">fascinate</span> <span class="text-sm opacity-70">/ˈfæsɪneɪt/</span></td>
+                                <td class="py-4 px-4">say mê</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=😍" alt="fascinate"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Fascinate audience</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('fascinate')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">charm</span> <span class="text-sm opacity-70">/tʃɑːrm/</span></td>
+                                <td class="py-4 px-4">quyến rũ</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=😍" alt="charm"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Charm everyone</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('charm')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">attract</span> <span class="text-sm opacity-70">/əˈtrækt/</span></td>
+                                <td class="py-4 px-4">thu hút</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=😍" alt="attract"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Attract attention</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('attract')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">impress</span> <span class="text-sm opacity-70">/ɪmˈpres/</span></td>
+                                <td class="py-4 px-4">gây ấn tượng</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=👏" alt="impress"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Impress interviewer</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('impress')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Xã Hội & Giao Tiếp -->
+            <div class="category-card" data-category="1d2">
+                <div class="category-header">
+                    <span class="text-3xl">🤝</span>
+                    <h2 class="text-2xl">1D-2: XÃ HỘI & GIAO TIẾP</h2>
+                </div>
+                <div class="overflow-x-auto p-6">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-blue-400/30">
+                                <th class="text-left py-4 px-4 font-bold text-cyan-300">Động từ</th>
+                                <th class="text-left py-4 px-4 font-bold text-cyan-300">Nghĩa</th>
+                                <th class="text-center py-4 px-4 font-bold text-cyan-300">Hình ảnh</th>
+                                <th class="text-left py-4 px-4 font-bold text-cyan-300">Ví dụ</th>
+                                <th class="text-center py-4 px-4 font-bold text-cyan-300">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="category-1d2">
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">hug</span> <span class="text-sm opacity-70">/hʌɡ/</span></td>
+                                <td class="py-4 px-4">ôm</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🤗" alt="hug"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Hug your friend</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('hug')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">kiss</span> <span class="text-sm opacity-70">/kɪs/</span></td>
+                                <td class="py-4 px-4">hôn</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=💋" alt="kiss"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Kiss goodbye</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('kiss')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">shake hands</span> <span class="text-sm opacity-70">/ʃeɪk hændz/</span></td>
+                                <td class="py-4 px-4">bắt tay</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🤝" alt="shake hands"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Shake hands politely</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('shake hands')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">wave</span> <span class="text-sm opacity-70">/weɪv/</span></td>
+                                <td class="py-4 px-4">vẫy tay</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=👋" alt="wave"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Wave goodbye</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('wave')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">nod</span> <span class="text-sm opacity-70">/nɑːd/</span></td>
+                                <td class="py-4 px-4">gật đầu</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=👍" alt="nod"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Nod yes</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('nod')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">bow</span> <span class="text-sm opacity-70">/baʊ/</span></td>
+                                <td class="py-4 px-4">cúi đầu</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🙏" alt="bow"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Bow respectfully</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('bow')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">salute</span> <span class="text-sm opacity-70">/ˈsæljuːt/</span></td>
+                                <td class="py-4 px-4">chào</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🫡" alt="salute"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Salute the flag</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('salute')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">applaud</span> <span class="text-sm opacity-70">/əˈplɔːd/</span></td>
+                                <td class="py-4 px-4">vỗ tay</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=👏" alt="applaud"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Applaud performance</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('applaud')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">cheer</span> <span class="text-sm opacity-70">/tʃɪr/</span></td>
+                                <td class="py-4 px-4">cổ vũ</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎉" alt="cheer"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Cheer loudly</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('cheer')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">celebrate</span> <span class="text-sm opacity-70">/ˈselɪbreɪt/</span></td>
+                                <td class="py-4 px-4">ăn mừng</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎉" alt="celebrate"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Celebrate birthday</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('celebrate')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">party</span> <span class="text-sm opacity-70">/ˈpɑːrti/</span></td>
+                                <td class="py-4 px-4">tiệc tùng</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎉" alt="party"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Party all night</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('party')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">socialize</span> <span class="text-sm opacity-70">/ˈsoʊʃəlaɪz/</span></td>
+                                <td class="py-4 px-4">giao du</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎉" alt="socialize"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Socialize with friends</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('socialize')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">greet</span> <span class="text-sm opacity-70">/ɡriːt/</span></td>
+                                <td class="py-4 px-4">chào hỏi</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=👋" alt="greet"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Greet visitors</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('greet')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">welcome</span> <span class="text-sm opacity-70">/ˈwelkəm/</span></td>
+                                <td class="py-4 px-4">chào đón</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🤗" alt="welcome"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Welcome guests</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('welcome')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">farewell</span> <span class="text-sm opacity-70">/ˌferˈwel/</span></td>
+                                <td class="py-4 px-4">tạm biệt</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=👋" alt="farewell"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Farewell party</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('farewell')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">congratulate</span> <span class="text-sm opacity-70">/kənˈɡrætʃəleɪt/</span></td>
+                                <td class="py-4 px-4">chúc mừng</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎉" alt="congratulate"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Congratulate success</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('congratulate')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">comfort</span> <span class="text-sm opacity-70">/ˈkʌmfərt/</span></td>
+                                <td class="py-4 px-4">an ủi</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🤗" alt="comfort"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Comfort sad friend</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('comfort')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">support</span> <span class="text-sm opacity-70">/səˈpɔːrt/</span></td>
+                                <td class="py-4 px-4">hỗ trợ</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🤝" alt="support"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Support your team</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('support')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">encourage</span> <span class="text-sm opacity-70">/ɪnˈkɜːrɪdʒ/</span></td>
+                                <td class="py-4 px-4">khuyến khích</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=💪" alt="encourage"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Encourage children</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('encourage')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">inspire</span> <span class="text-sm opacity-70">/ɪnˈspaɪər/</span></td>
+                                <td class="py-4 px-4">truyền cảm hứng</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=✨" alt="inspire"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Inspire others</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('inspire')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">motivate</span> <span class="text-sm opacity-70">/ˈmoʊtɪveɪt/</span></td>
+                                <td class="py-4 px-4">động viên</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=💪" alt="motivate"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Motivate employees</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('motivate')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Thể Thao & Sức Khỏe -->
+            <div class="category-card" data-category="1d3">
+                <div class="category-header">
+                    <span class="text-3xl">🏃</span>
+                    <h2 class="text-2xl">1D-3: THỂ THAO & SỨC KHỎE</h2>
+                </div>
+                <div class="overflow-x-auto p-6">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-blue-400/30">
+                                <th class="text-left py-4 px-4 font-bold text-cyan-300">Động từ</th>
+                                <th class="text-left py-4 px-4 font-bold text-cyan-300">Nghĩa</th>
+                                <th class="text-center py-4 px-4 font-bold text-cyan-300">Hình ảnh</th>
+                                <th class="text-left py-4 px-4 font-bold text-cyan-300">Ví dụ</th>
+                                <th class="text-center py-4 px-4 font-bold text-cyan-300">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="category-1d3">
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">exercise</span> <span class="text-sm opacity-70">/ˈɛksərsaɪz/</span></td>
+                                <td class="py-4 px-4">tập thể dục</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🏃" alt="exercise"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Exercise daily</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('exercise')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">workout</span> <span class="text-sm opacity-70">/ˈwɜːrkaʊt/</span></td>
+                                <td class="py-4 px-4">tập luyện</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=💪" alt="workout"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Workout at gym</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('workout')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">jog</span> <span class="text-sm opacity-70">/dʒɑːɡ/</span></td>
+                                <td class="py-4 px-4">chạy bộ</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🏃" alt="jog"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Jog in morning</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('jog')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">hike</span> <span class="text-sm opacity-70">/haɪk/</span></td>
+                                <td class="py-4 px-4">đi bộ đường dài</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🥾" alt="hike"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Hike mountains</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('hike')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">ski</span> <span class="text-sm opacity-70">/skiː/</span></td>
+                                <td class="py-4 px-4">trượt tuyết</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🎿" alt="ski"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Ski downhill</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('ski')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">skate</span> <span class="text-sm opacity-70">/skeɪt/</span></td>
+                                <td class="py-4 px-4">trượt patin</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=⛸️" alt="skate"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Skate on ice</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('skate')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">surf</span> <span class="text-sm opacity-70">/sɜːrf/</span></td>
+                                <td class="py-4 px-4">lướt sóng</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🏄" alt="surf"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Surf the waves</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('surf')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">swim</span> <span class="text-sm opacity-70">/swɪm/</span></td>
+                                <td class="py-4 px-4">bơi</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🏊" alt="swim"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Swim in ocean</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('swim')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">cycle</span> <span class="text-sm opacity-70">/ˈsaɪkl/</span></td>
+                                <td class="py-4 px-4">đạp xe</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🚴" alt="cycle"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Cycle to work</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('cycle')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="verb-row">
+                                <td class="py-4 px-4"><span class="font-bold">ride</span> <span class="text-sm opacity-70">/raɪd/</span></td>
+                                <td class="py-4 px-4">cưỡi / đi xe</td>
+                                <td class="py-4 px-4 text-center"><div class="icon-container"><img src="https://placehold.co/100/FF69B4/FFFFFF?text=🚴" alt="ride"></div></td>
+                                <td class="py-4 px-4 italic opacity-90">Ride bicycle</td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <button onclick="speak('ride')" class="speak-btn text-white hover:text-cyan-300"><i class="fas fa-volume-up"></i></button>
+                                        <button onclick="toggleFavorite(this)" class="favorite-btn text-white hover:text-red-400"><i class="far fa-heart"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-16 pt-8 border-t border-white/20">
+            <p class="opacity-70">✅ <strong>Tài liệu học thuật - Đầy đủ & Chính xác</strong></p>
+            <p class="text-sm opacity-50">Phát triển bởi AI + Giáo viên tiếng Anh</p>
+        </div>
+    </div>
+
+    <script>
+        // Phát âm
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+
+            const buttons = document.querySelectorAll(`[onclick="speak('${text}')"]`);
+            buttons.forEach(btn => {
+                const icon = btn.querySelector('i');
+                icon.className = 'fas fa-spinner loading-dots';
+            });
+
+            utterance.onend = () => {
+                buttons.forEach(btn => {
+                    const icon = btn.querySelector('i');
+                    icon.className = 'fas fa-volume-up';
+                });
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Yêu thích
+        function toggleFavorite(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                btn.classList.add('active');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                btn.classList.remove('active');
+            }
+        }
+
+        // Lọc chủ đề
+        function filterCategory(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            document.querySelectorAll('[data-category]').forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Tìm kiếm
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.verb-row').forEach(row => {
+                const verb = row.querySelector('td').textContent.toLowerCase();
+                const meaning = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                const example = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+                
+                if (verb.includes(searchTerm) || meaning.includes(searchTerm) || example.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Animation khi load
+        document.addEventListener('DOMContentLoaded', () => {
+            anime({
+                targets: '.category-card',
+                translateY: [50, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(100),
+                duration: 800,
+                easing: 'easeOutQuad'
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Từ Vựng Động Từ - Học Tiếng Anh Hiệu Quả</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
+            background-attachment: fixed;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-animation div {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            filter: blur(20px);
+        }
+        
+        .bg-animation div:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            background: #ff006e;
+            top: -100px;
+            left: -100px;
+            animation: float 15s ease-in-out infinite;
+        }
+        
+        .bg-animation div:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: #3a86ff;
+            bottom: -100px;
+            right: -100px;
+            animation: float 20s ease-in-out infinite reverse;
+        }
+        
+        .bg-animation div:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            background: #8338ec;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: float 25s ease-in-out infinite;
+        }
+        
+        .bg-animation div:nth-child(4) {
+            width: 200px;
+            height: 200px;
+            background: #ffbe0b;
+            bottom: 20%;
+            left: 10%;
+            animation: float 18s ease-in-out infinite reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, 30px) rotate(5deg); }
+            50% { transform: translate(-20px, -20px) rotate(-5deg); }
+            75% { transform: translate(10px, -30px) rotate(3deg); }
+        }
+        
+        /* Grid Animation */
+        .grid-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        /* Floating Elements */
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        .floating-delay {
+            animation: floating 6s ease-in-out 2s infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Neon Glow */
+        .neon {
+            text-shadow: 
+                0 0 5px rgba(255, 255, 255, 0.5),
+                0 0 10px rgba(255, 255, 255, 0.3),
+                0 0 15px #ff006e,
+                0 0 20px #ff006e;
+        }
+        
+        .neon-blue {
+            text-shadow: 
+                0 0 5px rgba(255, 255, 255, 0.5),
+                0 0 10px rgba(255, 255, 255, 0.3),
+                0 0 15px #3a86ff,
+                0 0 20px #3a86ff;
+        }
+        
+        .neon-purple {
+            text-shadow: 
+                0 0 5px rgba(255, 255, 255, 0.5),
+                0 0 10px rgba(255, 255, 255, 0.3),
+                0 0 15px #8338ec,
+                0 0 20px #8338ec;
+        }
+        
+        /* Card Effects */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .category-card {
+            transition: all 0.4s ease;
+        }
+        
+        .category-card:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+        
+        /* Button Effects */
+        .btn-animated {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-animated:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-animated::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500%;
+            height: 500%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s ease;
+            pointer-events: none;
+        }
+        
+        .btn-animated:active::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        /* Particle Animation */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-float 15s infinite linear;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(100vw);
+                opacity: 0;
+            }
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff006e, #3a86ff);
+            transition: width 0.3s ease;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #ff006e, #3a86ff);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .floating, .floating-delay {
+                animation: floating 6s ease-in-out infinite;
+            }
+            
+            .neon, .neon-blue, .neon-purple {
+                text-shadow: 0 0 10px currentColor;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    
+    <!-- Grid Pattern -->
+    <div class="grid-container"></div>
+    
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Header -->
+    <header class="relative z-10 px-6 py-8">
+        <nav class="flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+                    <i data-lucide="book-open" class="text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold font-orbitron">VOCAB<span class="text-pink-400">MASTER</span></h1>
+                    <p class="text-sm text-gray-300">Learn English Vocabulary</p>
+                </div>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-pink-400 transition-colors font-medium">Home</a>
+                <a href="#" class="hover:text-blue-400 transition-colors font-medium">Categories</a>
+                <a href="#" class="hover:text-purple-400 transition-colors font-medium">Practice</a>
+                <a href="#" class="hover:text-yellow-400 transition-colors font-medium">About</a>
+            </div>
+            <button class="md:hidden">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </nav>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="relative z-10 px-6 py-12 flex flex-col items-center text-center max-w-6xl mx-auto">
+        <div class="floating mb-8">
+            <div class="w-32 h-32 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-black opacity-20"></div>
+                <i data-lucide="sparkles" class="text-white text-6xl relative z-10 animate-pulse"></i>
+            </div>
+        </div>
+        
+        <h2 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+            <span class="block neon">TỪ VỰNG</span>
+            <span class="block neon-blue">ĐỘNG TỪ</span>
+            <span class="block neon-purple font-orbitron">ENGLISH MASTER</span>
+        </h2>
+        
+        <p class="text-xl text-gray-300 mb-10 max-w-3xl leading-relaxed animate__animated animate__fadeInUp">
+            Khám phá hơn 100 động từ tiếng Anh theo chủ đề với hệ thống học tập hiện đại, 
+            hình ảnh động sống động và công nghệ phát âm tiên tiến giúp bạn học nhanh hơn, nhớ lâu hơn.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-6 mb-16 animate__animated animate__fadeInUp animate__delay-1s">
+            <button class="btn-animated bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-10 py-4 rounded-2xl font-semibold text-lg shadow-xl transition-all duration-300 flex items-center justify-center space-x-3">
+                <i data-lucide="play" class="w-5 h-5"></i>
+                <span>Bắt Đầu Học Ngay</span>
+            </button>
+            <button class="btn-animated border-2 border-white/30 hover:border-white/50 text-white px-10 py-4 rounded-2xl font-semibold text-lg backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-all duration-300 flex items-center justify-center space-x-3">
+                <i data-lucide="book" class="w-5 h-5"></i>
+                <span>Xem Danh Sách</span>
+            </button>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+            <div class="card p-6 backdrop-blur-sm bg-white/10 border border-white/20 rounded-2xl hover:bg-white/15 transition-all duration-300">
+                <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-red-500 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+                    <i data-lucide="target" class="text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-center">100+ Động Từ</h3>
+                <p class="text-gray-300 text-center">Hệ thống từ vựng được phân loại theo chủ đề giúp học tập hiệu quả</p>
+            </div>
+            
+            <div class="card p-6 backdrop-blur-sm bg-white/10 border border-white/20 rounded-2xl hover:bg-white/15 transition-all duration-300">
+                <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+                    <i data-lucide="headphones" class="text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-center">Phát Âm Chuẩn</h3>
+                <p class="text-gray-300 text-center">Hệ thống phát âm tích hợp giúp luyện nghe nói chuẩn bản xứ</p>
+            </div>
+            
+            <div class="card p-6 backdrop-blur-sm bg-white/10 border border-white/20 rounded-2xl hover:bg-white/15 transition-all duration-300">
+                <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+                    <i data-lucide="gamepad-2" class="text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3 text-center">Học Qua Trò Chơi</h3>
+                <p class="text-gray-300 text-center">Phương pháp học hiện đại, biến việc học từ vựng thành trò chơi thú vị</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Categories Section -->
+    <section class="relative z-10 px-6 py-20">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-4 neon-blue">Các Chủ Đề Từ Vựng</h3>
+                <p class="text-xl text-gray-300">Khám phá hệ thống từ vựng được phân loại khoa học theo từng chủ đề</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Nghệ thuật & Giải trí -->
+                <div class="category-card card group">
+                    <div class="p-8 text-center">
+                        <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <span class="text-4xl">🎭</span>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-3">Nghệ Thuật & Giải Trí</h4>
+                        <p class="text-gray-300 mb-6">14 động từ về nghệ thuật, biểu diễn và giải trí</p>
+                        <div class="flex justify-center space-x-2 mb-4">
+                            <span class="text-sm bg-purple-500/30 px-3 py-1 rounded-full">dance</span>
+                            <span class="text-sm bg-pink-500/30 px-3 py-1 rounded-full">sing</span>
+                            <span class="text-sm bg-blue-500/30 px-3 py-1 rounded-full">play</span>
+                        </div>
+                        <button class="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300 group-hover:scale-105">
+                            Khám Phá Ngay
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Xã hội & Giao tiếp -->
+                <div class="category-card card group">
+                    <div class="p-8 text-center">
+                        <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <span class="text-4xl">🤝</span>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-3">Xã Hội & Giao Tiếp</h4>
+                        <p class="text-gray-300 mb-6">18 động từ về tương tác xã hội và giao tiếp</p>
+                        <div class="flex justify-center space-x-2 mb-4">
+                            <span class="text-sm bg-blue-500/30 px-3 py-1 rounded-full">hug</span>
+                            <span class="text-sm bg-cyan-500/30 px-3 py-1 rounded-full">kiss</span>
+                            <span class="text-sm bg-purple-500/30 px-3 py-1 rounded-full">wave</span>
+                        </div>
+                        <button class="w-full py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 group-hover:scale-105">
+                            Khám Phá Ngay
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Thể thao & Sức khỏe -->
+                <div class="category-card card group">
+                    <div class="p-8 text-center">
+                        <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <span class="text-4xl">🏃</span>
+                        </div>
+                        <h4 class="text-2xl font-bold mb-3">Thể Thao & Sức Khỏe</h4>
+                        <p class="text-gray-300 mb-6">10 động từ về hoạt động thể thao và chăm sóc sức khỏe</p>
+                        <div class="flex justify-center space-x-2 mb-4">
+                            <span class="text-sm bg-green-500/30 px-3 py-1 rounded-full">exercise</span>
+                            <span class="text-sm bg-emerald-500/30 px-3 py-1 rounded-full">jog</span>
+                            <span class="text-sm bg-blue-500/30 px-3 py-1 rounded-full">swim</span>
+                        </div>
+                        <button class="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 group-hover:scale-105">
+                            Khám Phá Ngay
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="relative z-10 px-6 py-20">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-4 neon-purple">Tính Năng Nổi Bật</h3>
+                <p class="text-xl text-gray-300">Hệ thống học tập hiện đại với công nghệ tiên tiến</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="flex items-start space-x-6 group">
+                        <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="image" class="text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold mb-3">Hình Ảnh Động Hiện Đại</h4>
+                            <p class="text-gray-300">Thay thế emoji bằng hình ảnh động chất lượng cao, biểu cảm sống động giúp ghi nhớ từ vựng hiệu quả hơn.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-6 group">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="volume-2" class="text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold mb-3">Hệ Thống Phát Âm</h4>
+                            <p class="text-gray-300">Tích hợp công nghệ phát âm chuẩn bản xứ, giúp luyện nghe nói chính xác và tự nhiên.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-6 group">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <i data-lucide="gamepad-2" class="text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold mb-3">Học Qua Trò Chơi</h4>
+                            <p class="text-gray-300">Biến việc học từ vựng thành những trò chơi thú vị, tăng động lực và hiệu quả học tập.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card p-8 backdrop-blur-sm bg-white/10 border border-white/20 rounded-3xl">
+                    <div class="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl flex items-center justify-center mb-6 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black opacity-30"></div>
+                        <div class="relative z-10 text-center">
+                            <i data-lucide="play-circle" class="w-16 h-16 text-white mb-4 mx-auto"></i>
+                            <p class="text-white font-semibold">Xem video giới thiệu</p>
+                        </div>
+                        <div class="absolute top-4 right-4 w-3 h-3 bg-green-400 rounded-full animate-ping"></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span>Hiệu suất học tập</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-pink-500 to-purple-500 h-2 rounded-full" style="width: 95%"></div>
+                        </div>
+                        
+                        <div class="flex justify-between text-sm">
+                            <span>Độ nhớ lâu</span>
+                            <span>88%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full" style="width: 88%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="relative z-10 px-6 py-20">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="card backdrop-blur-sm bg-white/10 border border-white/20 rounded-3xl p-12">
+                <h3 class="text-4xl font-bold mb-6 neon">Bắt Đầu Hành Trình Học Tập Ngay Hôm Nay!</h3>
+                <p class="text-xl text-gray-300 mb-8">Tham gia cộng đồng hơn 50,000 người học tiếng Anh thành công với phương pháp hiện đại của chúng tôi.</p>
+                
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <button class="btn-animated bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-12 py-4 rounded-2xl font-semibold text-lg shadow-xl transition-all duration-300">
+                        Đăng Ký Miễn Phí
+                    </button>
+                    <button class="btn-animated border-2 border-white/30 hover:border-white/50 text-white px-12 py-4 rounded-2xl font-semibold text-lg backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-all duration-300">
+                        Xem Demo
+                    </button>
+                </div>
+                
+                <div class="mt-8 text-sm text-gray-400">
+                    <p>Không cần thẻ tín dụng • Cam kết hoàn tiền trong 30 ngày • Hỗ trợ 24/7</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="relative z-10 px-6 py-12 border-t border-white/10">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg flex items-center justify-center">
+                            <i data-lucide="book-open" class="text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold font-orbitron">VOCAB<span class="text-pink-400">MASTER</span></span>
+                    </div>
+                    <p class="text-gray-400 mb-6">Hệ thống học từ vựng tiếng Anh hiện đại với công nghệ tiên tiến, giúp bạn học nhanh hơn và nhớ lâu hơn.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Chủ Đề</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Nghệ thuật & Giải trí</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Xã hội & Giao tiếp</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Thể thao & Sức khỏe</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Thiết bị & Công nghệ</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Trí tuệ & Học tập</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Hỗ Trợ</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Hướng dẫn sử dụng</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Câu hỏi thường gặp</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Liên hệ hỗ trợ</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Điều khoản sử dụng</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Liên Hệ</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-center space-x-3">
+                            <i data-lucide="mail" class="w-4 h-4"></i>
+                            <span>support@vocabmaster.com</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i data-lucide="phone" class="w-4 h-4"></i>
+                            <span>+84 123 456 789</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                            <span>Hà Nội, Việt Nam</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 VOCABMASTER. All rights reserved. Designed with ❤️ for English learners.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize Lucide icons
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+            
+            // Create particles
+            createParticles();
+            
+            // Update progress bar
+            window.addEventListener('scroll', updateProgressBar);
+            
+            // Animate elements on scroll
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.card, .category-card');
+                elements.forEach(el => {
+                    const position = el.getBoundingClientRect();
+                    if (position.top < window.innerHeight * 0.8) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+            
+            // Set initial state for animation
+            document.querySelectorAll('.card, .category-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Check on load
+        });
+        
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                
+                // Random size
+                const size = Math.random() * 4 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Random color
+                const colors = ['#ff006e', '#3a86ff', '#8338ec', '#ffbe0b', '#00b4d8'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Random animation duration
+                const duration = Math.random() * 30 + 15;
+                particle.style.animationDuration = duration + 's';
+                
+                // Random delay
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Update progress bar
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            const scrollPercentRounded = scrollPercent * 100;
+            document.getElementById('progressBar').style.width = scrollPercentRounded + '%';
+        }
+        
+        // Add hover effects to category cards
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05) translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
