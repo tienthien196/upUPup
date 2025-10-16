@@ -2,6 +2,7 @@
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 import sqlite3
 import os
+from pathlib import Path
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -10,6 +11,7 @@ app.secret_key = 'your_secret_key_here'  # Đổi thành chuỗi bí mật mạn
 UPLOAD_FOLDER = 'static/uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+DOCS_FOLDER = r"E:\DOCS\english\question"  # Đường dẫn tuyệt đối đến thư mục docs
 
 # --- Database setup ---
 def get_db():
@@ -255,14 +257,50 @@ from markdown import markdown
 
 @app.template_filter('markdown')
 def markdown_filter(text):
-    # Chuyển Markdown → HTML
-    html = markdown(text, extensions=['fenced_code', 'nl2br'])
-    # Chỉ cho phép một số thẻ HTML an toàn
-    allowed_tags = ['p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'blockquote', 'code', 'pre']
+    if not text:
+        return ""
+    # Chuyển Markdown → HTML, bật hỗ trợ bảng
+    html = markdown(text, extensions=['fenced_code', 'nl2br', 'tables'])
+    # Cho phép các thẻ HTML an toàn, bao gồm bảng
+    allowed_tags = [
+        'p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'blockquote', 'code', 'pre',
+        'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td'
+    ]
     allowed_attrs = {}
     clean_html = bleach.clean(html, tags=allowed_tags, attributes=allowed_attrs, strip=True)
     return clean_html
 
+@app.route('/docs')
+def docs_index():
+    if not os.path.exists(DOCS_FOLDER):
+        flash("Docs folder not found!")
+        return redirect(url_for('home'))
+
+    # Lấy danh sách file .md (không đệ quy, chỉ file trực tiếp)
+    md_files = []
+    for f in os.listdir(DOCS_FOLDER):
+        if f.endswith('.md'):
+            md_files.append(f)
+
+    md_files.sort()  # Sắp xếp theo tên file
+    return render_template('docs_index.html', files=md_files)
+
+@app.route('/docs/<filename>')
+def view_doc(filename):
+    # Đảm bảo filename hợp lệ (chống path traversal)
+    safe_path = Path(DOCS_FOLDER) / filename
+    if not safe_path.is_file() or not filename.endswith('.md'):
+        flash("File not found or invalid.")
+        return redirect(url_for('docs_index'))
+
+    try:
+        with open(safe_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except Exception as e:
+        flash(f"Error reading file: {e}")
+        return redirect(url_for('docs_index'))
+
+    return render_template('doc_view.html', filename=filename, content=content)
 
 @app.route('/follow/<int:user_id>')
 def follow(user_id):

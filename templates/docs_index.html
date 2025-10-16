@@ -1,0 +1,28 @@
+<!-- templates/docs_index.html -->
+{% extends "base.html" %}
+
+{% block title %}Tài liệu Tiếng Anh{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📚 Tài liệu Câu hỏi Tiếng Anh</h2>
+
+<div class="card p-4">
+    <ul class="list-group list-group-flush">
+        {% for file in files %}
+        <li class="list-group-item">
+            <a href="{{ url_for('view_doc', filename=file) }}" class="text-decoration-none">
+                <i class="bi bi-file-text me-2 text-muted"></i>{{ file }}
+            </a>
+        </li>
+        {% else %}
+        <li class="list-group-item text-muted">Không có tài liệu nào.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="mt-3">
+    <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-house"></i> Về trang chủ
+    </a>
+</div>
+{% endblock %}
