@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .profile-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-size: 2.5rem;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .post-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s;
+  }
+  .post-card:hover {
+    transform: translateY(-3px);
+  }
+</style>
+
+<div class="profile-header text-center">
+  <div class="avatar">
+    {{ user.username[0]|upper }}
+  </div>
+  <h2>{{ user.username }}</h2>
+  
+  <div class="mt-3">
+    <strong>{{ followers_count }}</strong> người theo dõi • 
+    <strong>{{ following_count }}</strong> đang theo dõi
+  </div>
+
+  {% if current_user and current_user.id != user.id %}
+    <div class="mt-3">
+      {% if is_following %}
+        <a href="{{ url_for('unfollow', user_id=user.id) }}" class="btn btn-outline-light">
+          <i class="bi bi-person-x"></i> Bỏ theo dõi
+        </a>
+      {% else %}
+        <a href="{{ url_for('follow', user_id=user.id) }}" class="btn btn-light">
+          <i class="bi bi-person-plus"></i> Theo dõi
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<!-- Danh sách bài viết -->
+<h4 class="mb-4">Bài viết gần đây</h4>
+
+{% if posts %}
+  {% for post in posts %}
+  <div class="card post-card">
+    <div class="card-body">
+      {% if post.content | markdown | safe %}
+        <p class="card-text">{{ post.content | markdown | safe }}</p>
+      {% endif %}
+
+      {% if post.image_path %}
+        <img src="/{{ post.image_path }}" class="img-fluid rounded mt-2" style="max-height: 500px; object-fit: cover;">
+      {% endif %}
+
+      {% if post.video_path %}
+        <video controls class="img-fluid rounded mt-2" style="max-height: 500px; width: 100%;">
+          <source src="/{{ post.video_path }}" type="video/mp4">
+          Trình duyệt không hỗ trợ video.
+        </video>
+      {% endif %}
+
+      <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+        <small class="text-muted">{{ post.created_at }}</small>
+        
+        <div>
+          {% if current_user %}
+            {% if post.liked %}
+              <a href="{{ url_for('unlike', post_id=post.id) }}" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-heart-fill"></i> Unlike
+              </a>
+            {% else %}
+              <a href="{{ url_for('like', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-heart"></i> Like
+              </a>
+            {% endif %}
+          {% endif %}
+          <span class="ms-2 text-muted">
+            <i class="bi bi-hand-thumbs-up"></i> {{ post.like_count }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="text-center py-5">
+    <i class="bi bi-chat-square-text display-4 text-muted"></i>
+    <p class="mt-2">{{ user.username }} chưa có bài viết nào.</p>
+  </div>
+{% endif %}
+{% endblock %}

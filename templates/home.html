@@ -1,0 +1,115 @@
+    {% extends "base.html" %}
+
+    {% block content %}
+    <style>
+    .suggestion-card {
+        border-left: 4px solid #3b82f6;
+        background-color: #f0f9ff;
+    }
+    .section-title {
+        font-weight: 600;
+        color: #1e40af;
+        margin: 1.5rem 0 1rem;
+        display: flex;
+        align-items: center;
+    }
+    .section-title i {
+        margin-right: 10px;
+    }
+    </style>
+
+    <div class="container py-4">
+    <!-- Form đăng bài -->
+    {% if current_user %}
+    <div class="card mb-4">
+        <div class="card-body">
+        <form method="POST" action="{{ url_for('create_post') }}" enctype="multipart/form-data">
+            <textarea name="content" class="form-control mb-2" rows="2" placeholder="Bạn đang nghĩ gì?"></textarea>
+            <div class="d-flex justify-content-between">
+            <div>
+                <input type="file" name="image" accept="image/*" class="form-control form-control-sm d-inline-block me-2" style="width: auto;">
+                <input type="file" name="video" accept="video/*" class="form-control form-control-sm d-inline-block" style="width: auto;">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Đăng</button>
+            </div>
+        </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- 🔹 BẢNG TIN CHÍNH -->
+    {% if current_user and feed_posts %}
+        <h5 class="section-title"><i class="bi bi-house-door"></i> Bảng tin của bạn</h5>
+        {% for post in feed_posts %}
+        <!-- Hiển thị bài viết giống cũ -->
+        <div class="card mb-3">
+            <div class="card-body">
+            <h6><a href="{{ url_for('profile', username=post.username) }}">{{ post.username }}</a></h6>
+            <p>{{ post.content | markdown | safe }}</p>
+            {% if post.image_path %}
+                <img src="/{{ post.image_path }}" class="img-fluid rounded mt-2" style="max-height: 400px; object-fit: cover;">
+            {% endif %}
+            {% if post.video_path %}
+                <video controls class="img-fluid rounded mt-2" style="max-height: 400px; width: 100%;">
+                <source src="/{{ post.video_path }}" type="video/mp4">
+                </video>
+            {% endif %}
+            <div class="mt-2">
+                {% if current_user %}
+                {% if post.liked %}
+                    <a href="{{ url_for('unlike', post_id=post.id) }}" class="btn btn-sm btn-outline-danger">Unlike</a>
+                {% else %}
+                    <a href="{{ url_for('like', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">Like</a>
+                {% endif %}
+                {% endif %}
+                <span class="ms-2">{{ post.like_count }} like{{ 's' if post.like_count != 1 else '' }}</span>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- 🔸 GỢI Ý KHÁM PHÁ -->
+    {% if current_user and suggested_posts %}
+        <h5 class="section-title"><i class="bi bi-compass"></i> Đề xuất cho bạn</h5>
+        {% for post in suggested_posts %}
+        <div class="card mb-3 suggestion-card">
+            <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <h6><a href="{{ url_for('profile', username=post.username) }}">{{ post.username }}</a></h6>
+                <span class="badge bg-primary">{{ post.like_count }} likes</span>
+            </div>
+            <p>{{ post.content | markdown | safe }}</p>
+            {% if post.image_path %}
+                <img src="/{{ post.image_path }}" class="img-fluid rounded mt-2" style="max-height: 300px; object-fit: cover;">
+            {% endif %}
+            <div class="mt-2">
+                {% if current_user %}
+                {% if post.liked %}
+                    <a href="{{ url_for('unlike', post_id=post.id) }}" class="btn btn-sm btn-outline-danger">Unlike</a>
+                {% else %}
+                    <a href="{{ url_for('like', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">Like</a>
+                {% endif %}
+                {% endif %}
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Hiển thị cho khách vãng lai -->
+    {% if not current_user and popular_posts %}
+        <h5 class="section-title"><i class="bi bi-fire"></i> Bài viết phổ biến</h5>
+        {% for post in popular_posts %}
+        <!-- Hiển thị tương tự -->
+        {% endfor %}
+    {% endif %}
+
+    {% if not current_user and not popular_posts %}
+        <div class="text-center py-5">
+        <i class="bi bi-globe display-4 text-muted"></i>
+        <p class="mt-2">Hãy <a href="{{ url_for('register') }}">đăng ký</a> để kết nối với mọi người!</p>
+        </div>
+    {% endif %}
+    </div>
+    {% endblock %}
