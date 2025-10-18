@@ -25,7 +25,7 @@
 
 - How do you cook this dish? *(Bạn nấu món này thế nào?)*  
 - How does this machine work? *(Cái máy này hoạt động ra sao?)*  
-- How did you solve the problem? *(Bạn giải quyết vấn đề như thế nào?)*
+- How did you solve the problem? *(Bạn giải quyết vấn đề như thế nào?)* 
 
 ---
 

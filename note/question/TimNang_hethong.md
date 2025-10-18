@@ -1,0 +1,1 @@
+moi truong -> layer  get gain archive -> cùng nghĩa study , learn  -> cụm động từ  học theo cụm
